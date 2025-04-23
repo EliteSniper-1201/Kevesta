@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import QuickActionButton from '../components/QuickActionButton'
-import FavoriteBox from '../components/FavoriteBox'
-import KeySectionCard from '../components/KeySectionCard'
+import QuickActionButton from '@/components/QuickActionButton'
+import FavoriteBox from '@/components/FavoriteBox'
+import KeySectionCard from '@/components/KeySectionCard'
 import styles from './styles/HomeScreen.styles'
 import Header from '@/components/Header'
 
@@ -42,23 +42,7 @@ export default function HomeScreen() {
                 <Text style={styles.logo}>LOGO</Text>
                 <Feather name="bell" size={24} color="black" />
               </View>
-              {/* <Text style={styles.sectionTitle}>Total Crypto Value</Text>
-              <View style={styles.balanceRow}>
-                <View style={styles.tagContainer}>
-                    <Text style={styles.tagText}>+7.46 APR</Text>
-                </View>
-                <Text style={styles.balance}>$10,500</Text>
-              </View>
-
-              <View style={styles.coins}>
-                <Image
-                  source={require('@/assets/images/Group all.png')}
-                  style={styles.reactLogo}
-                />
-              </View> */}
-
               <Header/>
-
               <View style={styles.searchBox}>
                 <Feather name="search" size={20} color="#999" />
                 <TextInput placeholder="Search here" style={styles.input} />

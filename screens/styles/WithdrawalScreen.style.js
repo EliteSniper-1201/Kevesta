@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#fff', paddingTop: 40 },
+    container: { flex: 1, backgroundColor: '#fff', paddingTop: 28 },
     listContent: { paddingBottom: 100 },
     itemContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginHorizontal: 20,
+      marginTop: 20
     },
     cryptoName: { fontWeight: 'bold', fontSize: 16, flex: 1 },
     amount: { fontSize: 16, flex: 1 },
@@ -25,6 +26,58 @@ export default StyleSheet.create({
     withdrawText: { fontWeight: 500, fontSize: 14 },
     btnText: { fontWeight: 500, fontSize: 14 },
     divider: { marginHorizontal: 20,
-               marginVertical: 20, 
+               marginTop: 20, 
      },
+    methodCard: {
+      backgroundColor: '#F5F5F5',
+      borderRadius: 8,
+      padding: 16,
+      marginBottom: 12,
+    },
+    methodHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 8,
+    },
+    methodTitle: {
+      fontSize: 16,
+      fontWeight: '500',
+    },
+    activeStatus: {
+      color: '#4CAF50',
+      fontWeight: '500',
+    },
+    methodDetail: {
+      color: '#666',
+      marginBottom: 4,
+    },
+    transactionItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: '#EEE',
+    },
+    transactionLeft: {
+      flex: 1,
+    },
+    transactionRight: {
+      alignItems: 'flex-end',
+    },
+    cryptoText: {
+      fontSize: 16,
+      fontWeight: '500',
+      marginBottom: 4,
+    },
+    dateText: {
+      color: '#666',
+    },
+    statusText: {
+      fontWeight: '500',
+    },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: '600',
+      marginVertical: 16,
+    },
 })

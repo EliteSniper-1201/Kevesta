@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, useColorScheme } from 'react-native';
 import styles from './styles/TradingScreen.styles'
 import Header from '@/components/Header';
+import TabButton from '@/components/TabButton'
+
+const tabButton = { btn1: 'Buy LTC/BTC', btn2: 'Sell LTC/BTC' };
 
 export default function TradingScreen() {
 
@@ -9,7 +12,7 @@ export default function TradingScreen() {
     // const darkMode = colorScheme === 'light';
 
   const [darkMode, setDarkMode] = useState(true);
-  const [activeTab, setActiveTab] = useState('buy');
+  const [activeTab, setActiveTab] = useState(tabButton.btn1);
   const [price, setPrice] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -27,29 +30,14 @@ export default function TradingScreen() {
         ListHeaderComponent={
             <>        
                 <Header darkMode={darkMode}/>
+                <View>
+                    <TabButton {...tabButton} 
+                    activeTab={activeTab}
+                    onTabChange={(tab) => setActiveTab(tab)}
+                    />
+                </View>
                 <ScrollView style={styles.content}>
-                    {/* Buy/Sell Tabs */}
-                    <View style={styles.tabContainer}>
-                    <TouchableOpacity 
-                        style={[styles.tab, activeTab === 'buy' && styles.activeTab]}
-                        onPress={() => setActiveTab('buy')}
-                    >
-                        <Text style={[styles.tabText, activeTab === 'buy' && styles.activeTabText]}>
-                        Buy LTC/BTC
-                        </Text>
-                    </TouchableOpacity>
-                    
-                    <TouchableOpacity 
-                        style={[styles.tab, activeTab === 'sell' && styles.activeTab]}
-                        onPress={() => setActiveTab('sell')}
-                    >
-                        <Text style={[styles.tabText, activeTab === 'sell' && styles.activeTabText]}>
-                        Sell LTC/BTC
-                        </Text>
-                    </TouchableOpacity>
-                    </View>
-
-                    {/* Price/Amount Inputs */}
+                     {/* Price/Amount Inputs */}
                     <View style={styles.formContainer}>
                     <TextInput
                         style={styles.input}
@@ -72,11 +60,11 @@ export default function TradingScreen() {
                     <TouchableOpacity 
                         style={[
                         styles.actionButton,
-                        activeTab === 'buy' ? styles.buyButton : styles.sellButton
+                        activeTab === tabButton.btn1 ? styles.buyButton : styles.sellButton
                         ]}
                     >
                         <Text style={styles.actionButtonText}>
-                        {activeTab === 'buy' ? 'Buy' : 'Sell'}
+                        {activeTab === tabButton.btn1 ? 'Buy' : 'Sell'}
                         </Text>
                     </TouchableOpacity>
                     </View>
