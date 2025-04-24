@@ -48,13 +48,7 @@ export default StyleSheet.create({
   formContainer: {
     marginBottom: 24,
   },
-  input: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    fontSize: 16,
-  },
+
   actionButton: {
     borderRadius: 8,
     padding: 16,
@@ -87,16 +81,21 @@ export default StyleSheet.create({
   assetSymbol: {
     fontWeight: 'bold',
     fontSize: 16,
+    color: '#090914'
   },
   assetDetails: {
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 20,
   },
   assetValue: {
     fontWeight: '500',
     marginBottom: 4,
+    fontSize: 12,
+    color: '#48484D'
   },
   assetAmount: {
-    color: '#666',
-    fontSize: 12,
+    color: '#090914',
+    fontSize: 18,
   },
 })

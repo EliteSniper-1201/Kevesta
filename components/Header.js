@@ -3,7 +3,6 @@ import { View, Text, Image } from 'react-native'
 import styles from '@/screens/styles/HomeScreen.styles'
 
 export default function Header({ darkMode }) {
-console.log("darkMode============", darkMode)
   return (
   //  <View style={[styles.headerContainer, darkMode && styles.darkHeaderContainer]}>
   //    <Text style={[styles.sectionTitle, darkMode && styles.darkSectionTitle]}>Total Crypto Value</Text>

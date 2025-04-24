@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, ScrollView  } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, Modal, TextInput } from 'react-native';
 import { Divider } from 'react-native-elements';
 import styles from './styles/WithdrawalScreen.style'
 import TabButton from '@/components/TabButton'
+import InputForm from '@/components/InputForm';
 
-const tabButton = { btn1: 'Crypto', btn2: 'Bank Account' };
+const tabButton = { btn1: 'Crypto', btn2: 'Bank Accounts' };
 
 const cryptoAssets = [
   { name: "BTC", amount: 8000, apr: 7.46, icon: require('@/assets/icons/BTC.png') },
@@ -34,6 +35,9 @@ const transactions = [
 
 export default function WithdrawalScreen() {
   const [activeTab, setActiveTab] = useState(tabButton.btn1);
+  const [showAmountModal, setShowAmountModal] = useState(false);
+  const [selectedAsset, setSelectedAsset] = useState(null);
+  const [amount, setAmount] = useState('');
 
   const renderCryptoItem = ({ item }) => {
     const isPositiveAPR = item.apr > 0;
@@ -58,7 +62,12 @@ export default function WithdrawalScreen() {
             </View>
             <View style={{flexDirection: 'row', gap: 8}}>
               <Text style={styles.withdrawText}>Withdraw</Text>
-              <TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => {
+                  setSelectedAsset(item);
+                  setShowAmountModal(true);
+                }}
+              >
                 <Image source={require('@/assets/icons/Vector.png')} />
               </TouchableOpacity>
             </View>
@@ -69,10 +78,15 @@ export default function WithdrawalScreen() {
     );
   };
 
+  const handlePercentageSelect = (percentage) => {
+    if (!selectedAsset) return;
+    const calculatedAmount = selectedAsset.amount * percentage;
+    setAmount(calculatedAmount.toFixed(2));
+  };
+
   const renderBankAccount = () => (
     <ScrollView>
       {/* Payment Methods */}
-      <Text style={styles.sectionTitle}>Bank Account</Text>
       {paymentMethods.map((method, index) => (
         <TouchableOpacity key={index} style={styles.methodCard}>
           <View style={styles.methodHeader}>
@@ -130,6 +144,70 @@ export default function WithdrawalScreen() {
       ) : (
         renderBankAccount()
       )}
+
+      {/* Amount Selection Modal */}
+      <Modal
+        visible={showAmountModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowAmountModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            {/* Modal Header */}
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Select Amount {selectedAsset?.name}</Text>
+              <TouchableOpacity onPress={() => setShowAmountModal(false)}>
+                <Text style={styles.closeButton}>×</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Amount Input Section */}
+            <View style={styles.inputSection}>
+              <InputForm 
+                label="Add Amount"
+                placeHolder="Add Amount"
+                value={amount}
+                onChangeText={setAmount}
+              />
+              <Text style={styles.balanceText}>
+                Available: {selectedAsset?.amount.toFixed(2)} {selectedAsset?.name}
+              </Text>
+            </View>
+
+            {/* Quick Add Buttons */}
+            <View style={styles.quickAddContainer}>
+              {[0.25, 0.5, 1].map((percentage) => (
+                <TouchableOpacity
+                  key={percentage}
+                  style={styles.percentageButton}
+                  onPress={() => handlePercentageSelect(percentage)}
+                >
+                  <Text style={styles.percentageText}>
+                    {percentage === 1 ? 'MAX' : `${percentage * 100}%`}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            {/* Action Buttons */}
+            <View style={styles.actionButtons}>
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={() => setShowAmountModal(false)}
+              >
+                <Text style={styles.buttonText}>Back</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, amount ? styles.confirmButton : styles.disabledButton]}
+                disabled={!amount}
+              >
+                <Text style={styles.buttonText}>Next</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
