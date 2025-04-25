@@ -20,7 +20,7 @@ const quickActions = [
 const keySections = [
     { id: '1', icon: 'chart', label: 'Trading', cta: 'Start Trading', rout: '/trading' },
     { id: '2', icon: 'dollar', label: 'Trading', cta: 'Withdraw Now', rout: '/withdrawal' },
-    { id: '3', icon: 'wallet', label: 'Trading', cta: 'Make a Payment', rout: '/trading' },
+    { id: '3', icon: 'wallet', label: 'Trading', cta: 'Make a Payment', rout: '/payment' },
     { id: '4', icon: 'calendar', label: 'Trading', cta: 'Book Now', rout: '/trading' },
 ]
 

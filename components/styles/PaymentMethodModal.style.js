@@ -99,4 +99,17 @@ export default StyleSheet.create({
         fontWeight: 600,
         color: '#48484D',
       },
+      requestButton: {
+        backgroundColor: '#2196F3',
+      },
+      disabledButton: {
+        backgroundColor: '#E0E0E0',
+      },
+      confirmButtonText: {
+        color: 'white',
+        fontWeight: '600',
+      },
+      disabledText: {
+        color: '#999999',
+      }
 })

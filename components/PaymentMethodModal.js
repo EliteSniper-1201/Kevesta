@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import styles from './styles/PaymentMethodModal.style'
 import CustomCheckbox from '@/components/CheckBox'
 
-export default function PaymentMethodModal({ visible, onClose, onBack }) {
+export default function PaymentMethodModal({ visible, onClose, onBack, onPaymentSelect, onRequestPayment }) {
     const paymentMethods = [
         { id: 1, icon: require('@/assets/icons/MasterCard.png'), name: 'Mastercard', expDate: '06/24', isDefault: true },
         { id: 2, icon: require('@/assets/icons/VISA.png'), name: 'VISA', expDate: '06/24' },
@@ -13,13 +13,12 @@ export default function PaymentMethodModal({ visible, onClose, onBack }) {
     ];
 
     const [selectedItems, setSelectedItems] = useState([]);
-    const handleCheck = (itemId) => {
-        setSelectedItems(prev =>
-            prev.includes(itemId)
-                ? prev.filter(id => id !== itemId)
-                : [...prev, itemId]
-        );
+    const handleCheck = (method) => {
+        onPaymentSelect(method);
+        setSelectedItems([method.id]);
     };
+
+    const isRequestDisabled = selectedItems.length === 0;
 
     return (
         <Modal
@@ -48,10 +47,9 @@ export default function PaymentMethodModal({ visible, onClose, onBack }) {
                                 <View style={styles.methodInfo}>
                                     <View style={{ flex: 1, flexDirection: 'row', gap: 10, }}>
                                         <CustomCheckbox
-                                            key={method.id}
                                             label={method.icon}
                                             value={selectedItems.includes(method.id)}
-                                            onValueChange={() => handleCheck(method.id)}
+                                            onValueChange={() => handleCheck(method)}
                                         />
                                         <View>
                                             <Text style={styles.methodName}>{method.name}</Text>
@@ -74,9 +72,11 @@ export default function PaymentMethodModal({ visible, onClose, onBack }) {
 
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
-                            style={[styles.button, styles.requestButton]}
+                            style={[styles.button, styles.requestButton, isRequestDisabled && styles.disabledButton]}
+                            disabled={isRequestDisabled}
+                            onPress={onRequestPayment}
                         >
-                            <Text style={styles.buttonText}>Request Payment</Text>
+                            <Text style={[styles.confirmButtonText, isRequestDisabled && styles.disabledText]}>Request Payment</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={[styles.button, styles.backButton]}

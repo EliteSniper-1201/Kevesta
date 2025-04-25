@@ -6,6 +6,7 @@ import TabButton from '@/components/TabButton'
 import InputForm from '@/components/InputForm';
 import AmountSelectionModal from '@/components/AmountSelectionModal';
 import PaymentMethodModal from '@/components/PaymentMethodModal';
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 const tabButton = { btn1: 'Crypto', btn2: 'Bank Accounts' };
 
@@ -42,6 +43,23 @@ export default function WithdrawalScreen() {
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [amount, setAmount] = useState('');
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+
+  const handlePaymentConfirmation = () => {
+    // Handle actual payment logic here
+    console.log("Confirming payment with:", {
+      asset: selectedAsset,
+      paymentMethod: selectedPaymentMethod,
+      amount: amount
+    });
+    
+    // Close all modals
+    setShowConfirmationModal(false);
+    setShowPaymentModal(false);
+    setShowAmountModal(false);
+  };
+
 
 
   const renderCryptoItem = ({ item }) => {
@@ -52,7 +70,7 @@ export default function WithdrawalScreen() {
     return (
       <View>
         <View style={styles.itemContainer} >
-          <View style={{ flexDirection: 'row', gap:16 }} >
+          <View style={{ flexDirection: 'row', gap: 16 }} >
             <View>
               <Image source={item.icon} style={{ width: 44, height: 44 }} />
             </View>
@@ -65,9 +83,9 @@ export default function WithdrawalScreen() {
             <View style={[styles.aprTag, aprStyle]}>
               <Text style={[styles.aprText, aprTextStyle]}>{item.apr > 0 ? `+${item.apr}% APR` : `${item.apr}% APR`}</Text>
             </View>
-            <View style={{flexDirection: 'row', gap: 8}}>
+            <View style={{ flexDirection: 'row', gap: 8 }}>
               <Text style={styles.withdrawText}>Withdraw</Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={() => {
                   setSelectedAsset(item);
                   setShowAmountModal(true);
@@ -127,12 +145,12 @@ export default function WithdrawalScreen() {
 
   return (
     <View style={styles.container}>
-      <TabButton 
+      <TabButton
         {...tabButton}
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab)}
       />
-      
+
       {activeTab === tabButton.btn1 ? (
         <FlatList
           data={cryptoAssets}
@@ -162,6 +180,19 @@ export default function WithdrawalScreen() {
           setShowPaymentModal(false);
           setShowAmountModal(true);
         }}
+        onPaymentSelect={setSelectedPaymentMethod}
+        onRequestPayment={() => {
+          setShowPaymentModal(false);
+          setShowConfirmationModal(true);
+        }}
+      />
+      <ConfirmationModal
+        visible={showConfirmationModal}
+        onConfirm={handlePaymentConfirmation}
+        onCancel={() => setShowConfirmationModal(false)}
+        asset={selectedAsset}
+        paymentMethod={selectedPaymentMethod}
+        amount={amount}
       />
     </View>
   );

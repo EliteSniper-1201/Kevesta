@@ -17,8 +17,8 @@ export default StyleSheet.create({
         alignItems: 'center',
       },
       checked: {
-        backgroundColor: '#2196F3',
-        borderColor: '#2196F3',
+        backgroundColor: '#090914',
+        borderColor: '#090914',
       },
       label: {
         fontSize: 16,
