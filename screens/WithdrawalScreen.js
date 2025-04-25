@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, Modal, TextInput } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
 import { Divider } from 'react-native-elements';
 import styles from './styles/WithdrawalScreen.style'
 import TabButton from '@/components/TabButton'
 import InputForm from '@/components/InputForm';
+import AmountSelectionModal from '@/components/AmountSelectionModal';
+import PaymentMethodModal from '@/components/PaymentMethodModal';
 
 const tabButton = { btn1: 'Crypto', btn2: 'Bank Accounts' };
 
 const cryptoAssets = [
-  { name: "BTC", amount: 8000, apr: 7.46, icon: require('@/assets/icons/BTC.png') },
-  { name: "ETH", amount: 2000, apr: 7.46, icon: require('@/assets/icons/ETH.png') },
-  { name: "BNB", amount: 200, apr: 7.46, icon: require('@/assets/icons/BNB.png') },
-  { name: "USDT", amount: 200, apr: 7.46, icon: require('@/assets/icons/USDT.png') },
-  { name: "XRP", amount: 100, apr: 7.46, icon: require('@/assets/icons/XRP.png') },
-  { name: "TRX", amount: 0, apr: -40.1, icon: require('@/assets/icons/TRX.png') },
-  { name: "LINK", amount: 0, apr: -40.1, icon: require('@/assets/icons/LINK.png') },
-  { name: "ADA", amount: 0, apr: -40.1, icon: require('@/assets/icons/ADA.png') },
+  { fullname: "Bitcoin", name: "BTC", amount: 8000, apr: 7.46, icon: require('@/assets/icons/BTC.png') },
+  { fullname: "Ethereum", name: "ETH", amount: 2000, apr: 7.46, icon: require('@/assets/icons/ETH.png') },
+  { fullname: "Binance", name: "BNB", amount: 200, apr: 7.46, icon: require('@/assets/icons/BNB.png') },
+  { fullname: "Stablecoin", name: "USDT", amount: 200, apr: 7.46, icon: require('@/assets/icons/USDT.png') },
+  { fullname: "", name: "XRP", amount: 100, apr: 7.46, icon: require('@/assets/icons/XRP.png') },
+  { fullname: "TRON", name: "TRX", amount: 0, apr: -40.1, icon: require('@/assets/icons/TRX.png') },
+  { fullname: "", name: "LINK", amount: 0, apr: -40.1, icon: require('@/assets/icons/LINK.png') },
+  { fullname: "", name: "ADA", amount: 0, apr: -40.1, icon: require('@/assets/icons/ADA.png') },
 ];
 
 const paymentMethods = [
@@ -34,10 +36,13 @@ const transactions = [
 ];
 
 export default function WithdrawalScreen() {
+
   const [activeTab, setActiveTab] = useState(tabButton.btn1);
   const [showAmountModal, setShowAmountModal] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState(null);
   const [amount, setAmount] = useState('');
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+
 
   const renderCryptoItem = ({ item }) => {
     const isPositiveAPR = item.apr > 0;
@@ -76,12 +81,6 @@ export default function WithdrawalScreen() {
         <Divider style={styles.divider} />
       </View>
     );
-  };
-
-  const handlePercentageSelect = (percentage) => {
-    if (!selectedAsset) return;
-    const calculatedAmount = selectedAsset.amount * percentage;
-    setAmount(calculatedAmount.toFixed(2));
   };
 
   const renderBankAccount = () => (
@@ -145,69 +144,25 @@ export default function WithdrawalScreen() {
         renderBankAccount()
       )}
 
-      {/* Amount Selection Modal */}
-      <Modal
+      <AmountSelectionModal
         visible={showAmountModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={() => setShowAmountModal(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            {/* Modal Header */}
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Select Amount {selectedAsset?.name}</Text>
-              <TouchableOpacity onPress={() => setShowAmountModal(false)}>
-                <Text style={styles.closeButton}>×</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Amount Input Section */}
-            <View style={styles.inputSection}>
-              <InputForm 
-                label="Add Amount"
-                placeHolder="Add Amount"
-                value={amount}
-                onChangeText={setAmount}
-              />
-              <Text style={styles.balanceText}>
-                Available: {selectedAsset?.amount.toFixed(2)} {selectedAsset?.name}
-              </Text>
-            </View>
-
-            {/* Quick Add Buttons */}
-            <View style={styles.quickAddContainer}>
-              {[0.25, 0.5, 1].map((percentage) => (
-                <TouchableOpacity
-                  key={percentage}
-                  style={styles.percentageButton}
-                  onPress={() => handlePercentageSelect(percentage)}
-                >
-                  <Text style={styles.percentageText}>
-                    {percentage === 1 ? 'MAX' : `${percentage * 100}%`}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Action Buttons */}
-            <View style={styles.actionButtons}>
-              <TouchableOpacity
-                style={[styles.button, styles.cancelButton]}
-                onPress={() => setShowAmountModal(false)}
-              >
-                <Text style={styles.buttonText}>Back</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, amount ? styles.confirmButton : styles.disabledButton]}
-                disabled={!amount}
-              >
-                <Text style={styles.buttonText}>Next</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+        onClose={() => setShowAmountModal(false)}
+        selectedAsset={selectedAsset}
+        amount={amount}
+        setAmount={setAmount}
+        onNext={() => {
+          setShowAmountModal(false);
+          setShowPaymentModal(true);
+        }}
+      />
+      <PaymentMethodModal
+        visible={showPaymentModal}
+        onClose={() => setShowPaymentModal(false)}
+        onBack={() => {
+          setShowPaymentModal(false);
+          setShowAmountModal(true);
+        }}
+      />
     </View>
   );
 };

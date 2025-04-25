@@ -55,15 +55,23 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   buyButton: {
-    backgroundColor: '#28a745',
+    backgroundColor: '#2C73FF',
   },
   sellButton: {
     backgroundColor: '#dc3545',
   },
-  actionButtonText: {
+  disabledButton: {
+    backgroundColor: '#F6F6F6',
+  },
+  confirmActionButtonText: {
     color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: 400,
+    fontSize: 14,
+  },
+  actionButtonText: {
+    color: '#090914',
+    fontWeight: 400,
+    fontSize: 14,
   },
   sectionTitle: {
     fontWeight: 'bold',

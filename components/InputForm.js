@@ -9,6 +9,7 @@ export default function InputForm({ label, value, placeHolder, onChangeText }) {
       <TextInput
         style={styles.input}
         placeholder={placeHolder}
+        placeholderTextColor="#8E8F96"
         value={value}
         onChangeText={onChangeText}
       />

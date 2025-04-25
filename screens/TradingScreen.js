@@ -18,11 +18,11 @@ export default function TradingScreen() {
   const [amount, setAmount] = useState('');
 
   const assets = [
-    { symbol: 'BTC', value: '$8,000.00', amount: '1,08005000', icon: require('@/assets/icons/BTC.png') },
-    { symbol: 'ETH', value: '$2,000.00', amount: '1,08005000', icon: require('@/assets/icons/ETH.png') },
-    { symbol: 'BNB', value: '$200.00', amount: '1,08005000', icon: require('@/assets/icons/BNB.png') },
-    { symbol: 'USDT', value: '$300.00', amount: '1,08005000', icon: require('@/assets/icons/USDT.png') },
-    { symbol: 'XRP', value: '$100.00', amount: '1,08005000', icon: require('@/assets/icons/XRP.png') },
+    { symbol: 'BTC', value: '$8,000.00', amount: '1.08005000', icon: require('@/assets/icons/BTC.png') },
+    { symbol: 'ETH', value: '$2,000.00', amount: '1.08005000', icon: require('@/assets/icons/ETH.png') },
+    { symbol: 'BNB', value: '$200.00', amount: '1.08005000', icon: require('@/assets/icons/BNB.png') },
+    { symbol: 'USDT', value: '$300.00', amount: '1.08005000', icon: require('@/assets/icons/USDT.png') },
+    { symbol: 'XRP', value: '$100.00', amount: '1.08005000', icon: require('@/assets/icons/XRP.png') },
   ];
 
   return (
@@ -57,10 +57,10 @@ export default function TradingScreen() {
                     <TouchableOpacity 
                         style={[
                         styles.actionButton,
-                        activeTab === tabButton.btn1 ? styles.buyButton : styles.sellButton
-                        ]}
+                        (amount && price) ? (activeTab === tabButton.btn1 ? styles.buyButton : styles.sellButton) : styles.disabledButton]}
+                        disabled={!(amount && price)}
                     >
-                        <Text style={styles.actionButtonText}>
+                        <Text style={[(amount && price) ? styles.confirmActionButtonText : styles.actionButtonText]}>
                         {activeTab === tabButton.btn1 ? 'Buy' : 'Sell'}
                         </Text>
                     </TouchableOpacity>

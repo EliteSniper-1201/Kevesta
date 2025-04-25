@@ -10,7 +10,7 @@ export default StyleSheet.create({
     label: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#333',
+        color: '#48484D',
         marginBottom: 8,
     },
     input: {
