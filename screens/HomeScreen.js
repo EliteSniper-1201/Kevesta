@@ -6,22 +6,23 @@ import FavoriteBox from '@/components/FavoriteBox'
 import KeySectionCard from '@/components/KeySectionCard'
 import styles from './styles/HomeScreen.styles'
 import Header from '@/components/Header'
+import { router } from 'expo-router';
 
 const quickActions = [
-    { icon: 'chart-bar', label: 'Trading' },
-    { icon: 'cash-plus', label: 'Withdrawal' },
-    { icon: 'wallet-outline', label: 'Payments' },
-    { icon: 'file-document-outline', label: 'Subscription' },
-    { icon: 'cog-outline', label: 'Settings' },
-    { icon: 'medal-outline', label: 'Rewards' },
-    { icon: 'help-circle-outline', label: 'Help' },
-    { icon: 'clipboard-text-outline', label: 'Terms' },
+    { label: 'Trading', icon: require('@/assets/icons/trading.png'), action: (() => router.push('/trading')), },
+    { label: 'Withdrawal', icon: require('@/assets/icons/withdrawal.png'), action: (() => router.push('/withdrawal')), },
+    { label: 'Payments', icon: require('@/assets/icons/payments.png'), action: (() => router.push('/payment')), },
+    { label: 'Subscription', icon: require('@/assets/icons/subscription.png'), action: (() => router.push('/payment')), },
+    { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/payment')), },
+    { label: 'Rewards', icon: require('@/assets/icons/rewards.png'), action: (() => router.push('/payment')), },
+    { label: 'Help', icon: require('@/assets/icons/help.png'), action: (() => router.push('/payment')), },
+    { label: 'Terms', icon: require('@/assets/icons/terms.png'), action: (() => router.push('/payment')), },
   ]  
 const keySections = [
-    { id: '1', icon: 'chart', label: 'Trading', cta: 'Start Trading', rout: '/trading' },
-    { id: '2', icon: 'dollar', label: 'Trading', cta: 'Withdraw Now', rout: '/withdrawal' },
-    { id: '3', icon: 'wallet', label: 'Trading', cta: 'Make a Payment', rout: '/payment' },
-    { id: '4', icon: 'calendar', label: 'Trading', cta: 'Book Now', rout: '/trading' },
+    { id: '1', icon: require('@/assets/icons/line-chart 2.png'), label: 'Trading', cta: 'Start Trading', rout: '/trading' },
+    { id: '2', icon: require('@/assets/icons/dollar-symbol 1.png'), label: 'Trading', cta: 'Withdraw Now', rout: '/withdrawal' },
+    { id: '3', icon: require('@/assets/icons/Wallet.png'), label: 'Trading', cta: 'Make a Payment', rout: '/payment' },
+    { id: '4', icon: require('@/assets/icons/Calendar.png'), label: 'Trading', cta: 'Book Now', rout: '/phoneAuth' },
 ]
 
 export default function HomeScreen() {
@@ -66,7 +67,6 @@ export default function HomeScreen() {
         ))}
       </View>
     </View>
-    
   )
 }
 
