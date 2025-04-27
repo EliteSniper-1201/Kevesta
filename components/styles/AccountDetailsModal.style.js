@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   modalOverlay: {
@@ -13,7 +13,6 @@ export default StyleSheet.create({
     borderRadius: 16,
     padding: 24,
     width: '90%',
-    maxHeight: '70%',
   },
   title: {
     fontSize: 20,
@@ -23,41 +22,41 @@ export default StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: '#666',
-    marginBottom: 16,
+    marginBottom: 24,
   },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  label: {
+    fontSize: 14,
+    color: '#333',
+    marginBottom: 8,
+    marginTop: 16,
   },
-  dropdownList: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    marginTop: 5,
-    backgroundColor: 'white',
-  },
-  dropdownItem: {
-    padding: 12,
+  input: {
+    height: 40,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#DDD',
+    paddingHorizontal: 16,
+    fontSize: 16,
   },
   continueButton: {
-    marginTop: 20,
+    backgroundColor: '#1E6FFB',
     borderRadius: 8,
-    padding: 14,
+    padding: 16,
     alignItems: 'center',
+    marginTop: 24,
+  },
+  continueDisabledButton: {
+    backgroundColor: '#F2F2F2',
+    borderRadius: 8,
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 24,
   },
   continueText: {
     color: 'white',
     fontWeight: '600',
     fontSize: 16,
   },
-  continueDisbledText: {
+  continueDisabledText: {
     color: 'black',
     fontWeight: '600',
     fontSize: 16,
@@ -66,4 +65,4 @@ export default StyleSheet.create({
     fontSize: 28,
     color: '#666',
   },
-})
+});

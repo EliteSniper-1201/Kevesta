@@ -11,23 +11,18 @@ const tabButton = { btn1: 'Subscriptions', btn2: 'History' };
 export default function PaymentScreen() {
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
     const [selectedService, setSelectedService] = useState('');
-    const quickActions = [
+    const active = [
+        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), },
+        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), },
+        { label: 'Water', icon: require('@/assets/icons/tap.png') },
+    ];
+    const all = [
         { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), },
         { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), },
         { label: 'Water', icon: require('@/assets/icons/tap.png') },
         { label: 'Internet', icon: require('@/assets/icons/globe.png') },
     ];
-    const active = [
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/Paypal2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
-    ];
-    const all = [
+    const paymentHistory = [
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/VISA2.png'), },
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/MasterCard2.png'), },
@@ -92,7 +87,7 @@ export default function PaymentScreen() {
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Active Subscription</Text>
                         <View style={styles.quickActionsGrid}>
-                            {quickActions.map((item, index) => (
+                            {active.map((item, index) => (
                                 <QuickActionButton
                                     key={index}
                                     {...item}
@@ -105,7 +100,7 @@ export default function PaymentScreen() {
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>All Subscription</Text>
                         <View style={styles.quickActionsGrid}>
-                            {quickActions.map((item, index) => (
+                            {all.map((item, index) => (
                                 <QuickActionButton
                                     key={index}
                                     {...item}

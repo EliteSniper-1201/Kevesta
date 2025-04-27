@@ -5,17 +5,34 @@ import TabButton from '@/components/TabButton'
 import styles from './styles/PaymentScreen.styles'
 import QuickActionButton from '@/components/QuickActionButton'
 import { Feather } from '@expo/vector-icons'
-import ServiceProviderModal from '../components/ServiceProviderModal';
+import ServiceProviderModal from '@/components/ServiceProviderModal';
+import AccountDetailsModal from '@/components/AccountDetailsModal';
+import PaymentAmountModal from '@/components/PaymentAmountModal';
+import PaymentMethodModal from '@/components/PaymentMethodModal';
+import ConfirmationModalBill from '@/components/ConfirmationModalBill';
+import PaymentSuccessModal from '@/components/SuccessModal';
 
 const tabButton = { btn1: 'Organization', btn2: 'History' };
 
 export default function PaymentScreen() {
+
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
     const [showProviderModal, setShowProviderModal] = useState(false);
     const [selectedService, setSelectedService] = useState('');
+    const [showAccountModal, setShowAccountModal] = useState(false);
+    const [showAmountModal, setShowAmountModal] = useState(false);
+    const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [selectedProvider, setSelectedProvider] = useState('');
+    const [accountDetails, setAccountDetails] = useState('');
+    const [paymentAmount, setPaymentAmount] = useState('');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    const [selectedAsset, setSelectedAsset] = useState(null);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
     const quickActions = [
-        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: (() => {setSelectedService('Electricity'); setShowProviderModal(true);}) },
-        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: (() => {setSelectedService('Gas'); setShowProviderModal(true);}) },
+        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: (() => { setSelectedService('Electricity'); setShowProviderModal(true); }) },
+        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: (() => { setSelectedService('Gas'); setShowProviderModal(true); }) },
         { label: 'Water', icon: require('@/assets/icons/tap.png') },
         { label: 'Internet', icon: require('@/assets/icons/globe.png') },
         { label: 'Telephone', icon: require('@/assets/icons/telephone.png') },
@@ -38,11 +55,30 @@ export default function PaymentScreen() {
     ];
     const providers = {
         Electricity: [
-          { name: 'Vottenfall', id: 1 },
-          { name: 'EDF', id: 2 },
-          { name: 'E.ON for electricity', id: 3 },
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
         ],
-      };
+    };
+
+    const handlePaymentConfirmation = () => {
+        console.log('Processing payment:', {
+            service: selectedService,
+            provider: selectedProvider,
+            accountDetails,
+            amount: paymentAmount,
+            paymentMethod: selectedPaymentMethod
+        });
+
+        // Reset all states
+        setShowConfirmationModal(false);
+        setSelectedService('');
+        setPaymentAmount('');
+        setAccountDetails({ number: '', name: '', address: '' });
+        setSelectedPaymentMethod(null);
+        setShowConfirmationModal(false);
+        setShowSuccessModal(true);
+    };
 
     const renderHistoryItem = ({ item }) => {
 
@@ -120,6 +156,65 @@ export default function PaymentScreen() {
                 onClose={() => setShowProviderModal(false)}
                 serviceName={selectedService}
                 providers={providers[selectedService] || []}
+                onProviderSelect={(provider) => {
+                    setSelectedProvider(provider);
+                    setShowAccountModal(true);
+                }}
+            />
+            <AccountDetailsModal
+                visible={showAccountModal}
+                onClose={() => setShowAccountModal(false)}
+                provider={selectedProvider}
+                onContinue={(details) => {
+                    setAccountDetails(details);
+                    setShowAccountModal(false);
+                    setShowAmountModal(true);
+                }}
+            />
+            <PaymentAmountModal
+                visible={showAmountModal}
+                onClose={() => setShowAmountModal(false)}
+                provider={selectedService}
+                amount={paymentAmount}
+                setAmount={setPaymentAmount}
+                onNext={() => {
+                    setShowAmountModal(false);
+                    setShowPaymentMethodModal(true);
+                }}
+            />
+
+            <PaymentMethodModal
+                visible={showPaymentMethodModal}
+                onClose={() => setShowPaymentMethodModal(false)}
+                onBack={() => {
+                    setShowPaymentMethodModal(false);
+                    setShowAmountModal(true);
+                }}
+                onPaymentSelect={setSelectedPaymentMethod}
+                onRequestPayment={() => {
+                    setShowPaymentMethodModal(false);
+                    setShowConfirmationModal(true);
+                }}
+            />
+
+            <ConfirmationModalBill
+                visible={showConfirmationModal}
+                amount={paymentAmount ? `$${paymentAmount}` : '$0.00'}
+                onConfirm={() => {
+                    setShowConfirmationModal(false);
+                    setShowSuccessModal(true);
+                }}
+                onCancel={() => setShowConfirmationModal(false)}
+                providerDetails={{
+                    serviceType: selectedService,
+                    providerName: selectedProvider,
+                    accountNumber: accountDetails?.number,
+                }}
+            />
+
+            <PaymentSuccessModal
+                visible={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
             />
         </View>
     );

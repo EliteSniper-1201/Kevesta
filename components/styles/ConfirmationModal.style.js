@@ -4,8 +4,9 @@ export default StyleSheet.create({
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
+    justifyContent: 'top',
     alignItems: 'center',
+    paddingTop: 25,
   },
   modalContainer: {
     backgroundColor: 'white',
@@ -56,5 +57,9 @@ export default StyleSheet.create({
   buttonText: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  closeButton: {
+    fontSize: 28,
+    color: '#666',
   },
 });

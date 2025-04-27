@@ -12,7 +12,12 @@ export default function ConfirmationModal({ visible, onConfirm, onCancel, asset,
         >
             <View style={styles.modalOverlay}>
                 <View style={styles.modalContainer}>
-                    <Text style={styles.title}>Confirmation</Text>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <Text style={styles.title}>Confirmation</Text>
+                        <TouchableOpacity onPress={onCancel}>
+                            <Text style={styles.closeButton}>×</Text>
+                        </TouchableOpacity>
+                    </View>
                     <Text style={styles.subtitle}>Please check to proceed the trade</Text>
 
                     <View style={styles.detailsContainer}>
