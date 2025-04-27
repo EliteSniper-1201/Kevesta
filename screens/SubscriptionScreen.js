@@ -5,44 +5,38 @@ import TabButton from '@/components/TabButton'
 import styles from './styles/PaymentScreen.styles'
 import QuickActionButton from '@/components/QuickActionButton'
 import { Feather } from '@expo/vector-icons'
-import ServiceProviderModal from '../components/ServiceProviderModal';
 
-const tabButton = { btn1: 'Organization', btn2: 'History' };
+const tabButton = { btn1: 'Subscriptions', btn2: 'History' };
 
 export default function PaymentScreen() {
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
-    const [showProviderModal, setShowProviderModal] = useState(false);
     const [selectedService, setSelectedService] = useState('');
     const quickActions = [
-        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: (() => {setSelectedService('Electricity'); setShowProviderModal(true);}) },
-        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: (() => {setSelectedService('Gas'); setShowProviderModal(true);}) },
+        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), },
+        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), },
         { label: 'Water', icon: require('@/assets/icons/tap.png') },
         { label: 'Internet', icon: require('@/assets/icons/globe.png') },
-        { label: 'Telephone', icon: require('@/assets/icons/telephone.png') },
-        { label: 'TV', icon: require('@/assets/icons/tv 1.png') },
-        { label: 'Credit Card', icon: require('@/assets/icons/credit-card 1.png') },
-        { label: 'Govt. Fees', icon: require('@/assets/icons/receipt.png') },
-        { label: 'Insurance', icon: require('@/assets/icons/shield-tick.png') },
-        { label: 'Tracker', icon: require('@/assets/icons/location.png') },
-        { label: 'Others', icon: require('@/assets/icons/cards.png') },
     ];
-    const paymentHistory = [
-        { service: 'Electricity', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Gas', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'Water', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Internet', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/Paypal2.png'), },
-        { service: 'Telephone', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'TV', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
-        { service: 'Credit Card', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
-        { service: 'Insurance', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+    const active = [
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/Paypal2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
     ];
-    const providers = {
-        Electricity: [
-          { name: 'Vottenfall', id: 1 },
-          { name: 'EDF', id: 2 },
-          { name: 'E.ON for electricity', id: 3 },
-        ],
-      };
+    const all = [
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/Paypal2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
+        { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
+    ];
 
     const renderHistoryItem = ({ item }) => {
 
@@ -96,7 +90,20 @@ export default function PaymentScreen() {
                     </View>
 
                     <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>All Organizations</Text>
+                        <Text style={styles.sectionTitle}>Active Subscription</Text>
+                        <View style={styles.quickActionsGrid}>
+                            {quickActions.map((item, index) => (
+                                <QuickActionButton
+                                    key={index}
+                                    {...item}
+                                    onPress={item.action}
+                                />
+                            ))}
+                        </View>
+                    </View>
+
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>All Subscription</Text>
                         <View style={styles.quickActionsGrid}>
                             {quickActions.map((item, index) => (
                                 <QuickActionButton
@@ -115,12 +122,6 @@ export default function PaymentScreen() {
                     keyExtractor={(item) => item.service}
                 />
             )}
-            <ServiceProviderModal
-                visible={showProviderModal}
-                onClose={() => setShowProviderModal(false)}
-                serviceName={selectedService}
-                providers={providers[selectedService] || []}
-            />
         </View>
     );
 };
