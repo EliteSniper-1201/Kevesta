@@ -3,18 +3,18 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './styles/FavoriteBox.style'
 import { useRouter } from 'expo-router';
 
-export default function FavoriteBox() {
+export default function FavoriteBox({title, description, linkText, action}) {
 
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>See Your Favorites</Text>
+      <Text style={styles.title}>{title}</Text>
       <Text style={styles.desc}>
-        Access your favorites instantly for a faster, more convenient experience!
+        {description}
       </Text>
-      <TouchableOpacity onPress={() => router.push('/favorite')}>
-        <Text style={styles.link}>See Favorites →</Text>
+      <TouchableOpacity onPress={action}>
+        <Text style={styles.link}>{linkText} →</Text>
       </TouchableOpacity>
     </View>
   )
