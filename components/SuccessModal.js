@@ -3,7 +3,7 @@ import { Modal, View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './styles/SuccessModal.style';
 
-export default function PaymentSuccessModal({ visible, onClose }) {
+export default function PaymentSuccessModal({ visible, onClose, completedObject }) {
   return (
     <Modal
       animationType="fade"
@@ -18,7 +18,7 @@ export default function PaymentSuccessModal({ visible, onClose }) {
           </TouchableOpacity>
 
           <Ionicons name="checkmark-circle" size={64} color="#34C759" style={styles.icon} />
-          <Text style={styles.title}>Bill Payment Completed</Text>
+          <Text style={styles.title}>{completedObject} Completed</Text>
 
           <TouchableOpacity style={styles.invoiceButton}>
             <Text style={styles.invoiceButtonText}>View Invoice</Text>

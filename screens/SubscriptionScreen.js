@@ -5,22 +5,36 @@ import TabButton from '@/components/TabButton'
 import styles from './styles/PaymentScreen.styles'
 import QuickActionButton from '@/components/QuickActionButton'
 import { Feather } from '@expo/vector-icons'
+import SubscriptionModal from '@/components/SubscriptionModal';
+import PaymentMethodModal from '@/components/PaymentMethodModal'
+import SubscriptionConfirmationModal from '@/components/SubscriptionConfirmationModal';
+import SuccessModal from '@/components/SuccessModal'
+import DetailsModal from '@/components/DetailsModal';
 
 const tabButton = { btn1: 'Subscriptions', btn2: 'History' };
 
 export default function PaymentScreen() {
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
     const [selectedService, setSelectedService] = useState('');
+    const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+    const [showPaymentMethodModal, setShowPaymentMethodModal] = useState(false);
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+    const [paymentAmount, setPaymentAmount] = useState('');
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [selectedDetails, setSelectedDetails] = useState(null);
+
     const active = [
-        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), },
-        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), },
-        { label: 'Water', icon: require('@/assets/icons/tap.png') },
+        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: () => setShowSubscriptionModal(true) },
+        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: () => setShowSubscriptionModal(true) },
+        { label: 'Water', icon: require('@/assets/icons/tap.png'), action: () => setShowSubscriptionModal(true) },
     ];
     const all = [
-        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), },
-        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), },
-        { label: 'Water', icon: require('@/assets/icons/tap.png') },
-        { label: 'Internet', icon: require('@/assets/icons/globe.png') },
+        { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: () => setShowSubscriptionModal(true) },
+        { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: () => setShowSubscriptionModal(true) },
+        { label: 'Water', icon: require('@/assets/icons/tap.png'), action: () => setShowSubscriptionModal(true) },
+        { label: 'Internet', icon: require('@/assets/icons/globe.png'), action: () => setShowSubscriptionModal(true) },
     ];
     const paymentHistory = [
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
@@ -32,6 +46,26 @@ export default function PaymentScreen() {
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/VISA2.png'), },
         { service: 'Streaming', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
     ];
+
+    const handlePaymentConfirmation = () => {
+        setShowConfirmationModal(false);
+        setShowSubscriptionModal(false);
+        setPaymentAmount('');
+        setSelectedPaymentMethod(null);
+        setShowConfirmationModal(false);
+        setShowSuccessModal(true);
+        setPaymentAmount('');
+        setSelectedPaymentMethod(null);
+    };
+
+    const transactionDetails = {
+        date: 'Jun 24, 2024',
+        accountNumber: '0x12*********',
+        paymentMethod: 'Mastercard',
+        billFor: 'Netflix',
+        amount: '$10.00',
+        status: 'Active'
+    };
 
     const renderHistoryItem = ({ item }) => {
 
@@ -55,8 +89,8 @@ export default function PaymentScreen() {
                             <Text style={styles.detailsText}>Details</Text>
                             <TouchableOpacity
                                 onPress={() => {
-                                    setSelectedAsset(item);
-                                    setShowAmountModal(true);
+                                    setSelectedDetails(item);
+                                    setShowDetailsModal(true);
                                 }}
                             >
                                 <Image source={require('@/assets/icons/Vector.png')} />
@@ -117,6 +151,51 @@ export default function PaymentScreen() {
                     keyExtractor={(item) => item.service}
                 />
             )}
+            <SubscriptionModal
+                visible={showSubscriptionModal}
+                onClose={() => setShowSubscriptionModal(false)}
+                onContinue={() => {
+                    // Handle subscription purchase
+                    setShowSubscriptionModal(false);
+                    setShowPaymentMethodModal(true);
+                }}
+            />
+
+            <PaymentMethodModal
+                visible={showPaymentMethodModal}
+                onClose={() => setShowPaymentMethodModal(false)}
+                onBack={() => {
+                    setShowPaymentMethodModal(false);
+                    setShowSubscriptionModal(true);
+                }}
+                onPaymentSelect={setSelectedPaymentMethod}
+                onRequestPayment={() => {
+                    setShowPaymentMethodModal(false);
+                    setShowConfirmationModal(true);
+                }}
+            />
+
+            <SubscriptionConfirmationModal
+                visible={showConfirmationModal}
+                onClose={() => setShowConfirmationModal(false)}
+                onConfirm={handlePaymentConfirmation}
+                onEdit={() => {
+                    setShowConfirmationModal(false);
+                    setShowSubscriptionModal(true);
+                }}
+            />
+
+            <SuccessModal
+                visible={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                completedObject='Your purchase'
+            />
+
+            <DetailsModal
+                visible={showDetailsModal}
+                onClose={() => setShowDetailsModal(false)}
+                details={transactionDetails}
+            />
         </View>
     );
 };

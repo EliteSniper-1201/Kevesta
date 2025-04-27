@@ -20,9 +20,9 @@ const quickActions = [
   ]  
 const keySections = [
     { id: '1', icon: require('@/assets/icons/line-chart 2.png'), label: 'Trading', cta: 'Start Trading', rout: '/trading' },
-    { id: '2', icon: require('@/assets/icons/dollar-symbol 1.png'), label: 'Trading', cta: 'Withdraw Now', rout: '/withdrawal' },
-    { id: '3', icon: require('@/assets/icons/Wallet.png'), label: 'Trading', cta: 'Make a Payment', rout: '/payment' },
-    { id: '4', icon: require('@/assets/icons/Calendar.png'), label: 'Trading', cta: 'Book Now', rout: '/phoneAuth' },
+    { id: '2', icon: require('@/assets/icons/dollar-symbol 1.png'), label: 'Withdrawal', cta: 'Withdraw Now', rout: '/withdrawal' },
+    { id: '3', icon: require('@/assets/icons/Wallet.png'), label: 'Payment', cta: 'Make a Payment', rout: '/payment' },
+    { id: '4', icon: require('@/assets/icons/Calendar.png'), label: 'Subscription', cta: 'Book Now', rout: '/subscription' },
 ]
 
 export default function HomeScreen() {

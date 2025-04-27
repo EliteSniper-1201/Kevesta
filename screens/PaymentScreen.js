@@ -11,6 +11,7 @@ import PaymentAmountModal from '@/components/PaymentAmountModal';
 import PaymentMethodModal from '@/components/PaymentMethodModal';
 import ConfirmationModalBill from '@/components/ConfirmationModalBill';
 import PaymentSuccessModal from '@/components/SuccessModal';
+import DetailsModal from '@/components/DetailsModal';
 
 const tabButton = { btn1: 'Organization', btn2: 'History' };
 
@@ -29,19 +30,30 @@ export default function PaymentScreen() {
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [selectedAsset, setSelectedAsset] = useState(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [selectedDetails, setSelectedDetails] = useState(null);
+
+    const transactionDetails = {
+        date: 'Jun 24, 2024',
+        accountNumber: '0x12*********',
+        paymentMethod: 'Mastercard',
+        billFor: 'Netflix',
+        amount: '$10.00',
+        status: 'Active'
+    };
 
     const quickActions = [
         { label: 'Electricity', icon: require('@/assets/icons/outlet.png'), action: (() => { setSelectedService('Electricity'); setShowProviderModal(true); }) },
         { label: 'Gas', icon: require('@/assets/icons/gas-stove.png'), action: (() => { setSelectedService('Gas'); setShowProviderModal(true); }) },
-        { label: 'Water', icon: require('@/assets/icons/tap.png') },
-        { label: 'Internet', icon: require('@/assets/icons/globe.png') },
-        { label: 'Telephone', icon: require('@/assets/icons/telephone.png') },
-        { label: 'TV', icon: require('@/assets/icons/tv 1.png') },
-        { label: 'Credit Card', icon: require('@/assets/icons/credit-card 1.png') },
-        { label: 'Govt. Fees', icon: require('@/assets/icons/receipt.png') },
-        { label: 'Insurance', icon: require('@/assets/icons/shield-tick.png') },
-        { label: 'Tracker', icon: require('@/assets/icons/location.png') },
-        { label: 'Others', icon: require('@/assets/icons/cards.png') },
+        { label: 'Water', icon: require('@/assets/icons/tap.png'), action: (() => { setSelectedService('Water'); setShowProviderModal(true); }) },
+        { label: 'Internet', icon: require('@/assets/icons/globe.png'), action: (() => { setSelectedService('Internet'); setShowProviderModal(true); }) },
+        { label: 'Telephone', icon: require('@/assets/icons/telephone.png'), action: (() => { setSelectedService('Telephone'); setShowProviderModal(true); }) },
+        { label: 'TV', icon: require('@/assets/icons/tv 1.png'), action: (() => { setSelectedService('TV'); setShowProviderModal(true); }) },
+        { label: 'Credit Card', icon: require('@/assets/icons/credit-card 1.png'), action: (() => { setSelectedService('Credit Card'); setShowProviderModal(true); }) },
+        { label: 'Govt. Fees', icon: require('@/assets/icons/receipt.png'), action: (() => { setSelectedService('Govt. Fees'); setShowProviderModal(true); }) },
+        { label: 'Insurance', icon: require('@/assets/icons/shield-tick.png'), action: (() => { setSelectedService('Insurance'); setShowProviderModal(true); }) },
+        { label: 'Tracker', icon: require('@/assets/icons/location.png'), action: (() => { setSelectedService('Tracker'); setShowProviderModal(true); }) },
+        { label: 'Others', icon: require('@/assets/icons/cards.png'), action: (() => { setSelectedService('Others'); setShowProviderModal(true); }) },
     ];
     const paymentHistory = [
         { service: 'Electricity', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/MasterCard2.png'), },
@@ -55,6 +67,56 @@ export default function PaymentScreen() {
     ];
     const providers = {
         Electricity: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Gas: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Water: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Internet: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Telephone: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        TV: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        CreditCard: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        GovtFees: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Insurance: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Tracker: [
+            { name: 'Vottenfall', id: 1 },
+            { name: 'EDF', id: 2 },
+            { name: 'E.ON for electricity', id: 3 },
+        ],
+        Others: [
             { name: 'Vottenfall', id: 1 },
             { name: 'EDF', id: 2 },
             { name: 'E.ON for electricity', id: 3 },
@@ -102,8 +164,8 @@ export default function PaymentScreen() {
                             <Text style={styles.detailsText}>Details</Text>
                             <TouchableOpacity
                                 onPress={() => {
-                                    setSelectedAsset(item);
-                                    setShowAmountModal(true);
+                                    setSelectedDetails(item);
+                                    setShowDetailsModal(true);
                                 }}
                             >
                                 <Image source={require('@/assets/icons/Vector.png')} />
@@ -215,6 +277,13 @@ export default function PaymentScreen() {
             <PaymentSuccessModal
                 visible={showSuccessModal}
                 onClose={() => setShowSuccessModal(false)}
+                completedObject='Bill Payment'
+            />
+
+            <DetailsModal
+                visible={showDetailsModal}
+                onClose={() => setShowDetailsModal(false)}
+                details={transactionDetails}
             />
         </View>
     );
