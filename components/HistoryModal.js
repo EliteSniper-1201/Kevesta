@@ -3,7 +3,7 @@ import { Modal, View, Text, Image, ScrollView, TouchableOpacity } from 'react-na
 import { Feather } from '@expo/vector-icons';
 import styles from '@/components/styles/HistoryModal.style'
 
-export default function HistoryModal({ visible, onClose, historyData, action }) {
+export default function HistoryModal({ visible, onClose, historyData, onItemPress }) {
     return (
         <Modal
             visible={visible}
@@ -22,7 +22,7 @@ export default function HistoryModal({ visible, onClose, historyData, action }) 
 
                     <ScrollView>
                         {historyData.map((item) => (
-                            <TouchableOpacity key={item.id} style={styles.historyItem} onPress={action}>
+                            <TouchableOpacity key={item.id} style={styles.historyItem} onPress={() => onItemPress(item)}>
                                 <View style={styles.historyDetails}>
                                     <View style={{ flexDirection: 'row', gap: 16 }}>
                                         <Image source={require('@/assets/icons/MasterCard2.png')} />
