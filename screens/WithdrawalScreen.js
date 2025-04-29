@@ -6,7 +6,9 @@ import TabButton from '@/components/TabButton'
 import Header from '@/components/Header';
 import AmountSelectionModal from '@/components/AmountSelectionModal';
 import PaymentMethodModal from '@/components/PaymentMethodModal';
-import ConfirmationModal from '@/components/ConfirmationModal';
+import WithdrawalConfirmationModal from '@/components/WithdrawalConfirmationModal';
+import SuccessModal from '@/components/SuccessModal';
+import CardDetailsModal from '@/components/CardDetailsModal';
 import { router } from 'expo-router';
 
 const tabButton = { btn1: 'Crypto', btn2: 'Bank Accounts' };
@@ -23,18 +25,19 @@ const cryptoAssets = [
 ];
 
 const paymentMethods = [
-  { title: 'Crypto', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000' },
-  { title: 'VISA', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000' },
-  { title: 'BTC 06/2024', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000' },
-  { title: 'Pay', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000' },
+  { title: 'BTC', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000', icon: require('@/assets/icons/MasterCard.png') },
+  { title: 'BTC', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000', icon: require('@/assets/icons/VISA.png') },
+  { title: 'BTC', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000', icon: require('@/assets/icons/PayPal.png') },
+  { title: 'BTC', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000', icon: require('@/assets/icons/ApplePay.png') },
+  { title: 'BTC', status: 'Active', details: 'BTC 06/2024', amount: '1,598,000', icon: require('@/assets/icons/GooglePay.png') },
 ];
 
 const transactions = [
-  { crypto: 'BTC', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete' },
-  { crypto: 'ETH', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending' },
-  { crypto: 'BNB', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed' },
-  { crypto: 'USDT', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete' },
-  { crypto: 'XRP', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete' },
+  { crypto: 'BTC', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/BTC.png') },
+  { crypto: 'ETH', date: 'Jun 24, 2024', amount: '$66.00', status: 'Pending', icon: require('@/assets/icons/ETH.png') },
+  { crypto: 'BNB', date: 'Jun 24, 2024', amount: '$66.00', status: 'Failed', icon: require('@/assets/icons/BNB.png') },
+  { crypto: 'USDT', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/USDT.png') },
+  { crypto: 'XRP', date: 'Jun 24, 2024', amount: '$66.00', status: 'Complete', icon: require('@/assets/icons/XRP.png') },
 ];
 
 export default function WithdrawalScreen() {
@@ -46,6 +49,8 @@ export default function WithdrawalScreen() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCardDetailsModal, setShowCardDetailsModal] = useState(false);
 
   const handlePaymentConfirmation = () => {
     // Handle actual payment logic here
@@ -106,32 +111,49 @@ export default function WithdrawalScreen() {
     <ScrollView>
       {/* Payment Methods */}
       {paymentMethods.map((method, index) => (
-        <TouchableOpacity key={index} style={styles.methodCard}>
-          <View style={styles.methodHeader}>
-            <Text style={styles.methodTitle}>{method.title}</Text>
-            <Text style={styles.activeStatus}>{method.status}</Text>
-          </View>
-          <Text style={styles.methodDetail}>{method.details}</Text>
-          <Text style={styles.amountText}>{method.amount}</Text>
-        </TouchableOpacity>
-      ))}
-
-      {/* Transaction History */}
-      <Text style={styles.sectionTitle}>Transaction History</Text>
-      {transactions.map((transaction, index) => (
-        <View key={index} style={styles.transactionItem}>
-          <View style={styles.transactionLeft}>
-            <Text style={styles.cryptoText}>{transaction.crypto}</Text>
-            <Text style={styles.dateText}>{transaction.date}</Text>
-          </View>
-          <View style={styles.transactionRight}>
-            <Text style={styles.amountText}>{transaction.amount}</Text>
-            <Text style={[styles.statusText, { color: getStatusColor(transaction.status) }]}>
-              {transaction.status}
-            </Text>
-          </View>
+        <View key={index}>
+          <TouchableOpacity key={index} style={styles.methodCard} onPress={() => setShowCardDetailsModal(true)}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
+              <View style={{ width: 12, height: 12, borderRadius: 100, backgroundColor: '#4CAF50' }} />
+              <Text style={styles.activeStatus}>{method.status}</Text>
+              <Image source={method.icon} />
+              <View>
+                <Text style={styles.methodTitle}>{method.title}</Text>
+                <Text style={styles.methodDetail}>{method.details}</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.amountText}>{method.amount}</Text>
+            </View>
+          </TouchableOpacity>
+          <Divider />
         </View>
       ))}
+
+      <View style={{ marginTop: 60, marginHorizontal: 20, marginBottom: 30 }}>
+        {/* Transaction History */}
+        <Text style={styles.sectionTitle}>Transaction History</Text>
+        {transactions.map((transaction, index) => (
+          <View key={`transaction-${index}`} style={styles.transactionItem}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
+              <Image source={transaction.icon} />
+              <View style={styles.transactionLeft}>
+                <Text style={styles.cryptoText}>{transaction.crypto}</Text>
+                <Text style={styles.dateText}>{transaction.date}</Text>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.amountText}>{transaction.amount}</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ width: 12, height: 12, borderRadius: 100, backgroundColor: getStatusColor(transaction.status) }} />
+              <Text style={styles.statusText}>
+                {transaction.status}
+              </Text>
+            </View>
+          </View>
+        ))}
+      </View>
     </ScrollView>
   );
 
@@ -178,6 +200,7 @@ export default function WithdrawalScreen() {
           onNext={() => {
             setShowAmountModal(false);
             setShowPaymentModal(true);
+            console.log(setAmount);
           }}
         />
         <PaymentMethodModal
@@ -193,13 +216,22 @@ export default function WithdrawalScreen() {
             setShowConfirmationModal(true);
           }}
         />
-        <ConfirmationModal
+        <WithdrawalConfirmationModal
           visible={showConfirmationModal}
-          onConfirm={handlePaymentConfirmation}
+          onConfirm={() => { setShowConfirmationModal(false); setShowSuccessModal(true); }}
           onCancel={() => setShowConfirmationModal(false)}
           asset={selectedAsset}
           paymentMethod={selectedPaymentMethod}
           amount={amount}
+        />
+        <SuccessModal
+          visible={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          completedObject='Payment'
+        />
+        <CardDetailsModal
+          visible={showCardDetailsModal}
+          onClose={() => setShowCardDetailsModal(false)}
         />
       </View>
     </>

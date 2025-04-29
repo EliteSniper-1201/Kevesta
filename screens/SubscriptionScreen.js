@@ -15,7 +15,7 @@ import Header from '@/components/Header';
 
 const tabButton = { btn1: 'Subscriptions', btn2: 'History' };
 
-export default function PaymentScreen() {
+export default function SubscriptionScreen() {
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
     const [selectedService, setSelectedService] = useState('');
     const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);

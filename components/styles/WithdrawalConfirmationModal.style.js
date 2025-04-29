@@ -38,28 +38,36 @@ export default StyleSheet.create({
     marginBottom: 16,
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: 'col',
     gap: 16,
     marginTop: 24,
   },
   button: {
-    flex: 1,
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
   },
   confirmButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2C73FF',
   },
   cancelButton: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FA5014',
   },
   buttonText: {
     fontSize: 16,
+    color: '#fff',
     fontWeight: '600',
   },
   closeButton: {
     fontSize: 28,
     color: '#666',
+  },
+  amount: {
+    fontSize: 16,
+    fontWeight: 600,
+  },
+  cardNumber: {
+    fontSize: 16,
+    fontWeight: 600,
   },
 });

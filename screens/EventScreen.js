@@ -32,7 +32,7 @@ export default function EventScreen() {
         <View style={{ flex: 1 }}>
             <ImageBackground
                 source={require('@/assets/images/night.jpg')}
-                style={[styles.background, { height: windowHeight * 0.4 }]}
+                style={[styles.background, { height: windowHeight * 0.4, width: windowWidth }]}
                 resizeMode='cover'
             >
                 {/* Header with menu icon */}
@@ -43,11 +43,11 @@ export default function EventScreen() {
 
                 {/* Search Bar */}
                 <View style={styles.searchContainer}>
-                    <MaterialIcons name="search" size={20} color="#666" />
+                    <MaterialIcons name="search" size={20} color="rgba(255, 255, 255, 1)" />
                     <TextInput
                         style={styles.searchInput}
                         placeholder="Search here"
-                        placeholderTextColor="#666"
+                        placeholderTextColor="rgba(255, 255, 255, 1)"
                     />
                 </View>
             </ImageBackground>

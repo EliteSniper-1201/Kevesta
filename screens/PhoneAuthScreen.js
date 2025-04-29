@@ -3,7 +3,7 @@ import { View, TextInput, Button, Alert } from 'react-native';
 import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
 import { firebase, auth, firebaseConfig } from '../firebase';
 
-const PhoneAuthScreen = () => {
+export default function PhoneAuthScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationId, setVerificationId] = useState(null);
   const [verificationCode, setVerificationCode] = useState('');
@@ -83,5 +83,3 @@ const PhoneAuthScreen = () => {
     </View>
   );
 };
-
-export default PhoneAuthScreen;

@@ -3,8 +3,11 @@ import { View, Text, ScrollView, TouchableOpacity, TextInput, FlatList, useColor
 import styles from './styles/TradingScreen.styles'
 import CryptoStatus from '@/components/CryptoStatus';
 import TabButton from '@/components/TabButton'
-import InputForm from '../components/InputForm';
+import InputForm from '@/components/InputForm';
 import Header from '@/components/Header';
+import VerificationModal from '@/components/VerificationModal';
+import TradeConfirmationModal from '@/components/TradeConfirmationModal';
+import SuccessModal from '@/components/SuccessModal';
 import { router } from 'expo-router';
 
 const tabButton = { btn1: 'Buy LTC/BTC', btn2: 'Sell LTC/BTC' };
@@ -18,6 +21,9 @@ export default function TradingScreen() {
     const [activeTab, setActiveTab] = useState(tabButton.btn1);
     const [price, setPrice] = useState('');
     const [amount, setAmount] = useState('');
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [isTradeModalVisible, setTradeModalVisible] = useState(false);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const assets = [
         { symbol: 'BTC', value: '$8,000.00', amount: '1.08005000', icon: require('@/assets/icons/BTC.png') },
@@ -67,6 +73,7 @@ export default function TradingScreen() {
                                             styles.actionButton,
                                             (amount && price) ? (activeTab === tabButton.btn1 ? styles.buyButton : styles.sellButton) : styles.disabledButton]}
                                         disabled={!(amount && price)}
+                                        onPress={() => setModalVisible(true)}
                                     >
                                         <Text style={[(amount && price) ? styles.confirmActionButtonText : styles.actionButtonText]}>
                                             {activeTab === tabButton.btn1 ? 'Buy' : 'Sell'}
@@ -97,6 +104,26 @@ export default function TradingScreen() {
                     }
                 />
             </View>
+            <VerificationModal
+                visible={isModalVisible}
+                onClose={() => setModalVisible(false)}
+                onSubmit={(code) => { console.log('Submitted code:', code); setModalVisible(false); setTradeModalVisible(true) }}
+                onResend={() => console.log('Resend code')}
+            />
+            <TradeConfirmationModal
+                visible={isTradeModalVisible}
+                price={price}
+                amount={amount}
+                type={activeTab === tabButton.btn1 ? 'Buy' : 'Sell'}
+                onClose={() => setTradeModalVisible(false)}
+                onConfirm={() => {setTradeModalVisible(false); setShowSuccessModal(true);}}
+                onEdit={() => setTradeModalVisible(false)}
+            />
+            <SuccessModal
+                visible={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                completedObject='Trade'
+            />
         </>
 
     );

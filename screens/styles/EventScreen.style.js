@@ -17,12 +17,13 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         lineHeight: 32,
+        color: '#ffffff'
     },
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
-        borderRadius: 8,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        borderRadius: 30,
         paddingHorizontal: 16,
         paddingVertical: 12,
         marginBottom: 24,
@@ -31,7 +32,7 @@ export default StyleSheet.create({
         flex: 1,
         marginLeft: 8,
         fontSize: 16,
-        color: '#333',
+        color: '#ffffff',
     },
     cityList: {
         paddingBottom: 100,

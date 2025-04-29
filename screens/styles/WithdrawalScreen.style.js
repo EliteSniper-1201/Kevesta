@@ -10,7 +10,7 @@ export default StyleSheet.create({
       marginTop: 20
     },
     cryptoName: { fontWeight: 'bold', fontSize: 16, flex: 1 },
-    amount: { fontSize: 16, flex: 1 },
+    amountText: { fontSize: 16, fontWeight: 600, flex: 1 },
     aprTag: {
       marginVertical: 5,
       paddingVertical: 4,
@@ -29,10 +29,12 @@ export default StyleSheet.create({
                marginTop: 20, 
      },
     methodCard: {
-      backgroundColor: '#F5F5F5',
+      backgroundColor: '#ffffff',
       borderRadius: 8,
-      padding: 16,
-      marginBottom: 12,
+      padding: 20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     methodHeader: {
       flexDirection: 'row',
@@ -51,12 +53,18 @@ export default StyleSheet.create({
       color: '#666',
       marginBottom: 4,
     },
+    sectionTitle: {
+      fontSize: 18,
+      fontWeight: 600,
+      marginBottom: 28,
+    },
     transactionItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      paddingVertical: 12,
+      paddingVertical: 20,
       borderBottomWidth: 1,
       borderBottomColor: '#EEE',
+      alignItems: 'center',
     },
     transactionLeft: {
       flex: 1,
