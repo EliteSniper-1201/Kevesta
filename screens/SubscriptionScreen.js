@@ -10,6 +10,8 @@ import PaymentMethodModal from '@/components/PaymentMethodModal'
 import SubscriptionConfirmationModal from '@/components/SubscriptionConfirmationModal';
 import SuccessModal from '@/components/SuccessModal'
 import DetailsModal from '@/components/DetailsModal';
+import { router } from 'expo-router';
+import Header from '@/components/Header';
 
 const tabButton = { btn1: 'Subscriptions', btn2: 'History' };
 
@@ -104,98 +106,106 @@ export default function PaymentScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <TabButton
-                {...tabButton}
-                activeTab={activeTab}
-                onTabChange={(tab) => setActiveTab(tab)}
+        <>
+
+            <Header
+                title="Subscription"
+                onBack={() => router.push('/home')}
             />
-
-            {activeTab === tabButton.btn1 ? (
-                <ScrollView>
-                    <View style={styles.searchBox}>
-                        <Feather name="search" size={20} color="#999" />
-                        <TextInput placeholder="Search here" style={styles.input} />
-                    </View>
-
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Active Subscription</Text>
-                        <View style={styles.quickActionsGrid}>
-                            {active.map((item, index) => (
-                                <QuickActionButton
-                                    key={index}
-                                    {...item}
-                                    onPress={item.action}
-                                />
-                            ))}
-                        </View>
-                    </View>
-
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>All Subscription</Text>
-                        <View style={styles.quickActionsGrid}>
-                            {all.map((item, index) => (
-                                <QuickActionButton
-                                    key={index}
-                                    {...item}
-                                    onPress={item.action}
-                                />
-                            ))}
-                        </View>
-                    </View>
-                </ScrollView>
-            ) : (
-                <FlatList
-                    data={paymentHistory}
-                    renderItem={renderHistoryItem}
-                    keyExtractor={(item) => item.service}
+            <View style={styles.container}>
+                <TabButton
+                    {...tabButton}
+                    activeTab={activeTab}
+                    onTabChange={(tab) => setActiveTab(tab)}
                 />
-            )}
-            <SubscriptionModal
-                visible={showSubscriptionModal}
-                onClose={() => setShowSubscriptionModal(false)}
-                onContinue={() => {
-                    // Handle subscription purchase
-                    setShowSubscriptionModal(false);
-                    setShowPaymentMethodModal(true);
-                }}
-            />
 
-            <PaymentMethodModal
-                visible={showPaymentMethodModal}
-                onClose={() => setShowPaymentMethodModal(false)}
-                onBack={() => {
-                    setShowPaymentMethodModal(false);
-                    setShowSubscriptionModal(true);
-                }}
-                onPaymentSelect={setSelectedPaymentMethod}
-                onRequestPayment={() => {
-                    setShowPaymentMethodModal(false);
-                    setShowConfirmationModal(true);
-                }}
-            />
+                {activeTab === tabButton.btn1 ? (
+                    <ScrollView>
+                        <View style={styles.searchBox}>
+                            <Feather name="search" size={20} color="#999" />
+                            <TextInput placeholder="Search here" style={styles.input} />
+                        </View>
 
-            <SubscriptionConfirmationModal
-                visible={showConfirmationModal}
-                onClose={() => setShowConfirmationModal(false)}
-                onConfirm={handlePaymentConfirmation}
-                onEdit={() => {
-                    setShowConfirmationModal(false);
-                    setShowSubscriptionModal(true);
-                }}
-            />
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>Active Subscription</Text>
+                            <View style={styles.quickActionsGrid}>
+                                {active.map((item, index) => (
+                                    <QuickActionButton
+                                        key={index}
+                                        {...item}
+                                        onPress={item.action}
+                                    />
+                                ))}
+                            </View>
+                        </View>
 
-            <SuccessModal
-                visible={showSuccessModal}
-                onClose={() => setShowSuccessModal(false)}
-                completedObject='Your purchase'
-            />
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>All Subscription</Text>
+                            <View style={styles.quickActionsGrid}>
+                                {all.map((item, index) => (
+                                    <QuickActionButton
+                                        key={index}
+                                        {...item}
+                                        onPress={item.action}
+                                    />
+                                ))}
+                            </View>
+                        </View>
+                    </ScrollView>
+                ) : (
+                    <FlatList
+                        data={paymentHistory}
+                        renderItem={renderHistoryItem}
+                        keyExtractor={(item) => item.service}
+                    />
+                )}
+                <SubscriptionModal
+                    visible={showSubscriptionModal}
+                    onClose={() => setShowSubscriptionModal(false)}
+                    onContinue={() => {
+                        // Handle subscription purchase
+                        setShowSubscriptionModal(false);
+                        setShowPaymentMethodModal(true);
+                    }}
+                />
 
-            <DetailsModal
-                visible={showDetailsModal}
-                onClose={() => setShowDetailsModal(false)}
-                details={transactionDetails}
-            />
-        </View>
+                <PaymentMethodModal
+                    visible={showPaymentMethodModal}
+                    onClose={() => setShowPaymentMethodModal(false)}
+                    onBack={() => {
+                        setShowPaymentMethodModal(false);
+                        setShowSubscriptionModal(true);
+                    }}
+                    onPaymentSelect={setSelectedPaymentMethod}
+                    onRequestPayment={() => {
+                        setShowPaymentMethodModal(false);
+                        setShowConfirmationModal(true);
+                    }}
+                />
+
+                <SubscriptionConfirmationModal
+                    visible={showConfirmationModal}
+                    onClose={() => setShowConfirmationModal(false)}
+                    onConfirm={handlePaymentConfirmation}
+                    onEdit={() => {
+                        setShowConfirmationModal(false);
+                        setShowSubscriptionModal(true);
+                    }}
+                />
+
+                <SuccessModal
+                    visible={showSuccessModal}
+                    onClose={() => setShowSuccessModal(false)}
+                    completedObject='Your purchase'
+                />
+
+                <DetailsModal
+                    visible={showDetailsModal}
+                    onClose={() => setShowDetailsModal(false)}
+                    details={transactionDetails}
+                />
+            </View>
+        </>
+
     );
 };

@@ -3,10 +3,11 @@ import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, Modal } from
 import { Divider } from 'react-native-elements';
 import styles from './styles/WithdrawalScreen.style'
 import TabButton from '@/components/TabButton'
-import InputForm from '@/components/InputForm';
+import Header from '@/components/Header';
 import AmountSelectionModal from '@/components/AmountSelectionModal';
 import PaymentMethodModal from '@/components/PaymentMethodModal';
 import ConfirmationModal from '@/components/ConfirmationModal';
+import { router } from 'expo-router';
 
 const tabButton = { btn1: 'Crypto', btn2: 'Bank Accounts' };
 
@@ -53,7 +54,7 @@ export default function WithdrawalScreen() {
       paymentMethod: selectedPaymentMethod,
       amount: amount
     });
-    
+
     // Close all modals
     setShowConfirmationModal(false);
     setShowPaymentModal(false);
@@ -144,56 +145,64 @@ export default function WithdrawalScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <TabButton
-        {...tabButton}
-        activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab)}
+    <>
+      <Header
+        title="Withdrawal"
+        onBack={() => router.push('/home')}
       />
+      <View style={styles.container}>
 
-      {activeTab === tabButton.btn1 ? (
-        <FlatList
-          data={cryptoAssets}
-          renderItem={renderCryptoItem}
-          keyExtractor={(item) => item.name}
-          contentContainerStyle={styles.listContent}
+        <TabButton
+          {...tabButton}
+          activeTab={activeTab}
+          onTabChange={(tab) => setActiveTab(tab)}
         />
-      ) : (
-        renderBankAccount()
-      )}
 
-      <AmountSelectionModal
-        visible={showAmountModal}
-        onClose={() => setShowAmountModal(false)}
-        selectedAsset={selectedAsset}
-        amount={amount}
-        setAmount={setAmount}
-        onNext={() => {
-          setShowAmountModal(false);
-          setShowPaymentModal(true);
-        }}
-      />
-      <PaymentMethodModal
-        visible={showPaymentModal}
-        onClose={() => setShowPaymentModal(false)}
-        onBack={() => {
-          setShowPaymentModal(false);
-          setShowAmountModal(true);
-        }}
-        onPaymentSelect={setSelectedPaymentMethod}
-        onRequestPayment={() => {
-          setShowPaymentModal(false);
-          setShowConfirmationModal(true);
-        }}
-      />
-      <ConfirmationModal
-        visible={showConfirmationModal}
-        onConfirm={handlePaymentConfirmation}
-        onCancel={() => setShowConfirmationModal(false)}
-        asset={selectedAsset}
-        paymentMethod={selectedPaymentMethod}
-        amount={amount}
-      />
-    </View>
+        {activeTab === tabButton.btn1 ? (
+          <FlatList
+            data={cryptoAssets}
+            renderItem={renderCryptoItem}
+            keyExtractor={(item) => item.name}
+            contentContainerStyle={styles.listContent}
+          />
+        ) : (
+          renderBankAccount()
+        )}
+
+        <AmountSelectionModal
+          visible={showAmountModal}
+          onClose={() => setShowAmountModal(false)}
+          selectedAsset={selectedAsset}
+          amount={amount}
+          setAmount={setAmount}
+          onNext={() => {
+            setShowAmountModal(false);
+            setShowPaymentModal(true);
+          }}
+        />
+        <PaymentMethodModal
+          visible={showPaymentModal}
+          onClose={() => setShowPaymentModal(false)}
+          onBack={() => {
+            setShowPaymentModal(false);
+            setShowAmountModal(true);
+          }}
+          onPaymentSelect={setSelectedPaymentMethod}
+          onRequestPayment={() => {
+            setShowPaymentModal(false);
+            setShowConfirmationModal(true);
+          }}
+        />
+        <ConfirmationModal
+          visible={showConfirmationModal}
+          onConfirm={handlePaymentConfirmation}
+          onCancel={() => setShowConfirmationModal(false)}
+          asset={selectedAsset}
+          paymentMethod={selectedPaymentMethod}
+          amount={amount}
+        />
+      </View>
+    </>
+
   );
 };

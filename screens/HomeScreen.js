@@ -5,17 +5,18 @@ import QuickActionButton from '@/components/QuickActionButton'
 import FavoriteBox from '@/components/FavoriteBox'
 import KeySectionCard from '@/components/KeySectionCard'
 import styles from './styles/HomeScreen.styles'
-import Header from '@/components/Header'
+import CryptoStatus from '@/components/CryptoStatus'
 import { router } from 'expo-router';
-import BottomNav from '../components/BottomNav';
+import BottomNav from '@/components/BottomNav';
+import TrendingNews from '@/components/TrendingNews';
 
 const quickActions = [
   { label: 'Trading', icon: require('@/assets/icons/trading.png'), action: (() => router.push('/trading')), },
   { label: 'Withdrawal', icon: require('@/assets/icons/withdrawal.png'), action: (() => router.push('/withdrawal')), },
   { label: 'Payments', icon: require('@/assets/icons/payments.png'), action: (() => router.push('/payment')), },
   { label: 'Subscription', icon: require('@/assets/icons/subscription.png'), action: (() => router.push('/subscription')), },
-  { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/payment')), },
-  { label: 'Rewards', icon: require('@/assets/icons/rewards.png'), action: (() => router.push('/payment')), },
+  { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/phoneauth')), },
+  { label: 'Rewards', icon: require('@/assets/icons/rewards.png'), action: (() => router.push('/event')), },
   { label: 'Help', icon: require('@/assets/icons/help.png'), action: (() => router.push('/payment')), },
   { label: 'Terms', icon: require('@/assets/icons/terms.png'), action: (() => router.push('/payment')), },
 ]
@@ -40,7 +41,7 @@ export default function HomeScreen() {
               <Text style={styles.logo}>LOGO</Text>
               <Feather name="bell" size={24} color="black" />
             </View>
-            <Header />
+            <CryptoStatus />
             <View style={styles.searchBox}>
               <Feather name="search" size={20} color="#999" />
               <TextInput placeholder="Search here" style={styles.input} />
@@ -60,6 +61,9 @@ export default function HomeScreen() {
               />
             <Text style={styles.sectionTitle}>Key Sections</Text>
           </>
+        }
+        ListFooterComponent={
+          <TrendingNews/>
         }
         numColumns={2}
         keyExtractor={(item) => item.id}

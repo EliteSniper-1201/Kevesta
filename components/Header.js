@@ -1,44 +1,15 @@
-import React from 'react'
-import { View, Text, Image } from 'react-native'
-import styles from '@/screens/styles/HomeScreen.styles'
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import styles from './styles/Header.style'
 
-export default function Header({ darkMode }) {
+export default function Header({ title, onBack, style }) {
   return (
-  //  <View style={[styles.headerContainer, darkMode && styles.darkHeaderContainer]}>
-  //    <Text style={[styles.sectionTitle, darkMode && styles.darkSectionTitle]}>Total Crypto Value</Text>
-  //    <View style={styles.balanceRow}>
-  //      <View style={[styles.tagContainer, darkMode && styles.darkTagContainer]}>
-  //          <Text style={[styles.tagText, darkMode && styles.darkTagText]}>+7.46 APR</Text>
-  //      </View>
-  //      <Text style={[styles.balance, darkMode && styles.darkBalance]}>$10,500</Text>
-  //    </View>
-
-  //    <View style={styles.coins}>
-  //      <Image
-  //        source={require('@/assets/images/Group all.png')}
-  //        style={[styles.reactLogo]}
-  //      />
-  //    </View>
-  //  </View>
-
-
-
-  <View style={[darkMode ? styles.darkHeaderContainer : styles.headerContainer]}>
-  <Text style={[styles.sectionTitle, darkMode && styles.darkSectionTitle]}>Total Crypto Value</Text>
-  <View style={styles.balanceRow}>
-    <View style={[styles.tagContainer, darkMode && styles.darkTagContainer]}>
-        <Text style={[styles.tagText, darkMode && styles.darkTagText]}>+7.46 APR</Text>
+    <View style={[styles.container, style]}>
+      <TouchableOpacity onPress={onBack} style={styles.backButton}>
+        <Feather name="arrow-left" size={24} color="white" />
+      </TouchableOpacity>
+      <Text style={styles.title}>{title}</Text>
     </View>
-    <Text style={[styles.balance, darkMode && styles.darkBalance]}>$10,500</Text>
-  </View>
-
-  <View style={styles.coins}>
-    <Image
-      source={require('@/assets/images/Group all.png')}
-      style={[styles.reactLogo]}
-    />
-  </View>
-</View>
-
-  )
-}
+  );
+};

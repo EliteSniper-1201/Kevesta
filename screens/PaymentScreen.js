@@ -12,6 +12,8 @@ import PaymentMethodModal from '@/components/PaymentMethodModal';
 import ConfirmationModalBill from '@/components/ConfirmationModalBill';
 import PaymentSuccessModal from '@/components/SuccessModal';
 import DetailsModal from '@/components/DetailsModal';
+import { router } from 'expo-router';
+import Header from '@/components/Header';
 
 const tabButton = { btn1: 'Organization', btn2: 'History' };
 
@@ -179,112 +181,121 @@ export default function PaymentScreen() {
     };
 
     return (
-        <View style={styles.container}>
-            <TabButton
-                {...tabButton}
-                activeTab={activeTab}
-                onTabChange={(tab) => setActiveTab(tab)}
+        <>
+            <Header
+                title="Payment"
+                onBack={() => router.push('/home')}
             />
+            <View style={styles.container}>
 
-            {activeTab === tabButton.btn1 ? (
-                <ScrollView>
-                    <View style={styles.searchBox}>
-                        <Feather name="search" size={20} color="#999" />
-                        <TextInput placeholder="Search here" style={styles.input} />
-                    </View>
 
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>All Organizations</Text>
-                        <View style={styles.quickActionsGrid}>
-                            {quickActions.map((item, index) => (
-                                <QuickActionButton
-                                    key={index}
-                                    {...item}
-                                    onPress={item.action}
-                                />
-                            ))}
-                        </View>
-                    </View>
-                </ScrollView>
-            ) : (
-                <FlatList
-                    data={paymentHistory}
-                    renderItem={renderHistoryItem}
-                    keyExtractor={(item) => item.service}
+                <TabButton
+                    {...tabButton}
+                    activeTab={activeTab}
+                    onTabChange={(tab) => setActiveTab(tab)}
                 />
-            )}
-            <ServiceProviderModal
-                visible={showProviderModal}
-                onClose={() => setShowProviderModal(false)}
-                serviceName={selectedService}
-                providers={providers[selectedService] || []}
-                onProviderSelect={(provider) => {
-                    setSelectedProvider(provider);
-                    setShowAccountModal(true);
-                }}
-            />
-            <AccountDetailsModal
-                visible={showAccountModal}
-                onClose={() => setShowAccountModal(false)}
-                provider={selectedProvider}
-                onContinue={(details) => {
-                    setAccountDetails(details);
-                    setShowAccountModal(false);
-                    setShowAmountModal(true);
-                }}
-            />
-            <PaymentAmountModal
-                visible={showAmountModal}
-                onClose={() => setShowAmountModal(false)}
-                provider={selectedService}
-                amount={paymentAmount}
-                setAmount={setPaymentAmount}
-                onNext={() => {
-                    setShowAmountModal(false);
-                    setShowPaymentMethodModal(true);
-                }}
-            />
 
-            <PaymentMethodModal
-                visible={showPaymentMethodModal}
-                onClose={() => setShowPaymentMethodModal(false)}
-                onBack={() => {
-                    setShowPaymentMethodModal(false);
-                    setShowAmountModal(true);
-                }}
-                onPaymentSelect={setSelectedPaymentMethod}
-                onRequestPayment={() => {
-                    setShowPaymentMethodModal(false);
-                    setShowConfirmationModal(true);
-                }}
-            />
+                {activeTab === tabButton.btn1 ? (
+                    <ScrollView>
+                        <View style={styles.searchBox}>
+                            <Feather name="search" size={20} color="#999" />
+                            <TextInput placeholder="Search here" style={styles.input} />
+                        </View>
 
-            <ConfirmationModalBill
-                visible={showConfirmationModal}
-                amount={paymentAmount ? `$${paymentAmount}` : '$0.00'}
-                onConfirm={() => {
-                    setShowConfirmationModal(false);
-                    setShowSuccessModal(true);
-                }}
-                onCancel={() => setShowConfirmationModal(false)}
-                providerDetails={{
-                    serviceType: selectedService,
-                    providerName: selectedProvider,
-                    accountNumber: accountDetails?.number,
-                }}
-            />
+                        <View style={styles.section}>
+                            <Text style={styles.sectionTitle}>All Organizations</Text>
+                            <View style={styles.quickActionsGrid}>
+                                {quickActions.map((item, index) => (
+                                    <QuickActionButton
+                                        key={index}
+                                        {...item}
+                                        onPress={item.action}
+                                    />
+                                ))}
+                            </View>
+                        </View>
+                    </ScrollView>
+                ) : (
+                    <FlatList
+                        data={paymentHistory}
+                        renderItem={renderHistoryItem}
+                        keyExtractor={(item) => item.service}
+                    />
+                )}
+                <ServiceProviderModal
+                    visible={showProviderModal}
+                    onClose={() => setShowProviderModal(false)}
+                    serviceName={selectedService}
+                    providers={providers[selectedService] || []}
+                    onProviderSelect={(provider) => {
+                        setSelectedProvider(provider);
+                        setShowAccountModal(true);
+                    }}
+                />
+                <AccountDetailsModal
+                    visible={showAccountModal}
+                    onClose={() => setShowAccountModal(false)}
+                    provider={selectedProvider}
+                    onContinue={(details) => {
+                        setAccountDetails(details);
+                        setShowAccountModal(false);
+                        setShowAmountModal(true);
+                    }}
+                />
+                <PaymentAmountModal
+                    visible={showAmountModal}
+                    onClose={() => setShowAmountModal(false)}
+                    provider={selectedService}
+                    amount={paymentAmount}
+                    setAmount={setPaymentAmount}
+                    onNext={() => {
+                        setShowAmountModal(false);
+                        setShowPaymentMethodModal(true);
+                    }}
+                />
 
-            <PaymentSuccessModal
-                visible={showSuccessModal}
-                onClose={() => setShowSuccessModal(false)}
-                completedObject='Bill Payment'
-            />
+                <PaymentMethodModal
+                    visible={showPaymentMethodModal}
+                    onClose={() => setShowPaymentMethodModal(false)}
+                    onBack={() => {
+                        setShowPaymentMethodModal(false);
+                        setShowAmountModal(true);
+                    }}
+                    onPaymentSelect={setSelectedPaymentMethod}
+                    onRequestPayment={() => {
+                        setShowPaymentMethodModal(false);
+                        setShowConfirmationModal(true);
+                    }}
+                />
 
-            <DetailsModal
-                visible={showDetailsModal}
-                onClose={() => setShowDetailsModal(false)}
-                details={transactionDetails}
-            />
-        </View>
+                <ConfirmationModalBill
+                    visible={showConfirmationModal}
+                    amount={paymentAmount ? `$${paymentAmount}` : '$0.00'}
+                    onConfirm={() => {
+                        setShowConfirmationModal(false);
+                        setShowSuccessModal(true);
+                    }}
+                    onCancel={() => setShowConfirmationModal(false)}
+                    providerDetails={{
+                        serviceType: selectedService,
+                        providerName: selectedProvider,
+                        accountNumber: accountDetails?.number,
+                    }}
+                />
+
+                <PaymentSuccessModal
+                    visible={showSuccessModal}
+                    onClose={() => setShowSuccessModal(false)}
+                    completedObject='Bill Payment'
+                />
+
+                <DetailsModal
+                    visible={showDetailsModal}
+                    onClose={() => setShowDetailsModal(false)}
+                    details={transactionDetails}
+                />
+            </View>
+        </>
+
     );
 };
