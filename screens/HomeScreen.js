@@ -17,8 +17,8 @@ const quickActions = [
   { label: 'Subscription', icon: require('@/assets/icons/subscription.png'), action: (() => router.push('/subscription')), },
   { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/phoneauth')), },
   { label: 'Rewards', icon: require('@/assets/icons/rewards.png'), action: (() => router.push('/event')), },
-  { label: 'Help', icon: require('@/assets/icons/help.png'), action: (() => router.push('/payment')), },
-  { label: 'Terms', icon: require('@/assets/icons/terms.png'), action: (() => router.push('/payment')), },
+  { label: 'Help', icon: require('@/assets/icons/help.png'), action: (() => router.push('/help')), },
+  { label: 'Terms', icon: require('@/assets/icons/terms.png'), action: (() => router.push('/terms')), },
 ]
 const keySections = [
   { id: '1', icon: require('@/assets/icons/line-chart 2.png'), label: 'Trading', cta: 'Start Trading', rout: '/trading' },

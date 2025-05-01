@@ -31,12 +31,24 @@ export default function RootLayout() {
         name="subscription"
         options={{ headerShown: false }}
       />
+      <Stack.Screen 
+        name="help"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="terms"
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="cards"
         options={{ headerShown: false }}
       />
       <Stack.Screen 
         name="event"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="map"
         options={{ headerShown: false }}
       />
       <Stack.Screen 
