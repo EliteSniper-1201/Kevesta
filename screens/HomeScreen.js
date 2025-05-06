@@ -15,17 +15,17 @@ const quickActions = [
   { label: 'Withdrawal', icon: require('@/assets/icons/withdrawal.png'), action: (() => router.push('/withdrawal')), },
   { label: 'Payments', icon: require('@/assets/icons/payments.png'), action: (() => router.push('/payment')), },
   { label: 'Subscription', icon: require('@/assets/icons/subscription.png'), action: (() => router.push('/subscription')), },
-  { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/phoneauth')), },
+  { label: 'Settings', icon: require('@/assets/icons/settings.png'), action: (() => router.push('/setting')), },
   { label: 'Rewards', icon: require('@/assets/icons/rewards.png'), action: (() => router.push('/event')), },
   { label: 'Help', icon: require('@/assets/icons/help.png'), action: (() => router.push('/help')), },
   { label: 'Terms', icon: require('@/assets/icons/terms.png'), action: (() => router.push('/terms')), },
 ]
 const keySections = [
   { id: '1', icon: require('@/assets/icons/line-chart 2.png'), label: 'Trading', cta: 'Start Trading', rout: '/trading' },
-  { id: '2', icon: require('@/assets/icons/dollar-symbol 1.png'), label: 'Withdrawal', cta: 'Withdraw Now', rout: '/withdrawal' },
-  { id: '3', icon: require('@/assets/icons/Wallet.png'), label: 'Payment', cta: 'Make a Payment', rout: '/payment' },
-  { id: '4', icon: require('@/assets/icons/Calendar.png'), label: 'Subscription', cta: 'Book Now', rout: '/subscription' },
-]
+  { id: '2', icon: require('@/assets/icons/dollar-symbol 1.png'), label: 'Withdrawal', cta: 'Withdraw Now', rout: '/cryptolist' },
+  { id: '3', icon: require('@/assets/icons/Wallet.png'), label: 'Payment', cta: 'Make a Payment', rout: '/phoneauth' },
+  { id: '4', icon: require('@/assets/icons/Calendar.png'), label: 'Subscription', cta: 'Book Now', rout: '/moonpay' },
+] 
 
 export default function HomeScreen() {
 

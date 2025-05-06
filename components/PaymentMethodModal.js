@@ -43,6 +43,7 @@ export default function PaymentMethodModal({ visible, onClose, onBack, onPayment
                             <TouchableOpacity
                                 key={method.id}
                                 style={styles.methodCard}
+                                onPress={() => handleCheck(method)}
                             >
                                 <View style={styles.methodInfo}>
                                     <View style={{ flex: 1, flexDirection: 'row', gap: 10, }}>

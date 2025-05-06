@@ -67,8 +67,10 @@ export default StyleSheet.create({
     },
     headerContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+justifyContent: 'space-between',
+        alignItems: 'center',
+        // backgroundColor: 'red',
+        marginRight: 90
     },
     title: {
         color: 'white',
@@ -90,11 +92,6 @@ export default StyleSheet.create({
     headerIcons: {
         flexDirection: 'row',
         gap: 8,
-    },
-    icon: {
-        width: 20,
-        height: 20,
-        tintColor: '#fff',
     },
     headerContent: {
         width: '100%',

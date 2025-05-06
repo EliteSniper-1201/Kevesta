@@ -6,7 +6,7 @@ import styles from './styles/BottomNav.style';
 export default function BottomNav({ activeTab, onTabPress }) {
   const routes = [
     { name: 'Home', icon: require('@/assets/icons/menu.png'), action: () => router.push('/home') },
-    { name: 'Deals', icon: require('@/assets/icons/deals.png'), action: () => router.push('/home') },
+    { name: 'Deals', icon: require('@/assets/icons/deals.png'), action: () => router.push('/deal') },
     { name: 'Card', icon: require('@/assets/icons/card.png'), action: () => router.push('/cards') },
     { name: 'Notifications', icon: require('@/assets/icons/notification.png'), action: () => router.push('/home') },
     { name: 'Profile', icon: require('@/assets/icons/profile.png'), action: () => router.push('/home') },

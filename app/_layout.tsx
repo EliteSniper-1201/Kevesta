@@ -52,6 +52,14 @@ export default function RootLayout() {
         options={{ headerShown: false }}
       />
       <Stack.Screen 
+        name="eventlist"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="eventdetail"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
         name="phoneauth"
         options={{ headerShown: true }}
       />

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
     View,
     Text,
-    TextInput,
     Image,
     FlatList,
     ImageBackground,
@@ -37,7 +36,7 @@ export default function EventScreen() {
 
     const handleCityPress = (city) => {
         router.push({
-            pathname: '/city-events',
+            pathname: '/eventlist',
             params: { city: city.name }
         });
     };
@@ -62,13 +61,11 @@ export default function EventScreen() {
                         <TouchableOpacity style={styles.topButton}>
                             <Image
                                 source={require('@/assets/icons/square.png')}
-                                style={styles.icon}
                             />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.topButton}>
                             <Image
                                 source={require('@/assets/icons/receipt-2.png')}
-                                style={styles.icon}
                             />
                         </TouchableOpacity>
                     </View>

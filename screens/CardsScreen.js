@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import styles from './styles/CardsScreen.style';
 import { router } from 'expo-router';
@@ -140,33 +140,25 @@ export default function CardsScreen() {
       <ScrollView>
         {/* Virtual Cards Section */}
         <Text style={styles.sectionTitle}>Virtual Cards</Text>
-        <FlatList
-          data={virtualCards}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card}>
+        <View style={styles.cardList}>
+          {virtualCards.map((item) => (
+            <TouchableOpacity style={styles.card} key={item.id}>
               <Image source={item.icon} style={styles.cardIcon} />
               <Text style={styles.cardTitle}>{item.name}</Text>
             </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.cardList}
-        />
+          ))}
+        </View>
 
         {/* Gift Cards Section */}
         <Text style={styles.sectionTitle}>Gift Cards</Text>
-        <FlatList
-          data={giftCards}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <TouchableOpacity style={styles.giftCard}>
+        <View style={styles.giftCardList}>
+          {giftCards.map((item) => (
+            <TouchableOpacity style={styles.giftCard} key={item.id}>
               <Image source={item.icon} style={styles.giftCardIcon} />
               <Text style={styles.giftCardName}>{item.name}</Text>
             </TouchableOpacity>
-          )}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.giftCardList}
-        />
+          ))}
+        </View>
 
         <FavoriteBox
           title="Your Purchase History Overview"
